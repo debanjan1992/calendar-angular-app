@@ -1,0 +1,36 @@
+.calendar {
+    height: 100%;
+    .wrapper {
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-rows: repeat(5, minmax(100px, 1fr));
+        overflow: hidden;
+
+        .grid-item {
+            position: relative;
+        }
+
+        .grid-item::before,
+        .grid-item::after {
+            content: '';
+            position: absolute;
+            background-color: var(--surface-300);
+            z-index: 1;
+        }
+
+        .grid-item::after {
+            width: 100vw;
+            height: 1px;
+            left: 0;
+            top: -1px;
+        }
+
+        .grid-item::before {
+            width: 1px;
+            height: 100vh;
+            left: -1px;
+            top: 0;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+<nav>
+    <div class="wrapper">
+        <section>
+            <!-- <p-button icon="pi pi-bars" [rounded]="true" [outlined]="true" link="true" /> -->
+            <img src="/calendar_2_2x.png" width="40" height="40" />
+            <h2>Calendar</h2>
+        </section>
+        <section>
+            <p-button [outlined]="true" size="small" (click)="goToToday()">Today</p-button>
+            <div class="controls">
+                <p-button icon="pi pi-angle-left" size="small" [rounded]="true" [outlined]="true" link="true"
+                    (click)="previous()" />
+                <p-button icon="pi pi-angle-right" size="small" [rounded]="true" [outlined]="true" link="true"
+                    (click)="next()" />
+            </div>
+            <div class="date">
+                <h2>{{ date | date : 'MMMM yyyy' }}</h2>
+                <p-calendar [(ngModel)]="date" view="month" dateFormat="MM yy" [readonlyInput]="true"
+                    (ngModelChange)="updateDate($event)" />
+            </div>
+        </section>
+        <section>
+            <p-avatar label="DS" styleClass="mr-2" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                shape="circle" />
+            <span>Debanjan Saha</span>
+        </section>
+    </div>
+</nav>

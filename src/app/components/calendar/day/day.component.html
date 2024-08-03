@@ -1,0 +1,23 @@
+<div class="wrapper" [ngClass]="showDropZone ? 'drop' : ''" (drop)="drop($event)" (dragover)="allowDrop($event)" (dragleave)="dragLeave($event)">
+    <div class="header">
+        <div *ngIf="showDayOfWeek">{{ dayOfWeekLabel | uppercase }}</div>
+        <div [ngClass]="isCurrent ? 'current' : ''">{{ dayLabel }}</div>
+    </div>
+    <div class="content">
+        <ul>
+            <li *ngFor="let task of date.items" draggable="true" (dragstart)="drag($event, task)"
+                [style.backgroundColor]="task.color" (click)="activeTask = task;editTaskOP.toggle($event)">
+                {{task.title}}</li>
+            <li *ngIf="newTaskOP.overlayVisible" class="untitled">untitled</li>
+        </ul>
+    </div>
+    <div class="add-new-task" (click)="newTaskOP.toggle($event)"></div>
+</div>
+
+<p-overlayPanel #newTaskOP [showCloseIcon]="true">
+    <app-new-task [date]="date.date" (dismiss)="newTaskOP.hide()"></app-new-task>
+</p-overlayPanel>
+
+<p-overlayPanel #editTaskOP [showCloseIcon]="true">
+    <app-new-task [date]="date.date" [task]="activeTask" [editMode]="true" (dismiss)="editTaskOP.hide()"></app-new-task>
+</p-overlayPanel>
