@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { TasksService } from '../../../services/tasks.service';
 import { Task } from './types';
 import { toDate } from "date-fns";
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-new-task',
@@ -28,7 +29,7 @@ export class NewTaskComponent {
   taskColor: string;
   taskDate: Date;
 
-  constructor(private tasksService: TasksService) {
+  constructor(private tasksService: TasksService, private messageService: MessageService) {
     this.taskTitle = "";
     this.taskDescription = "";
     this.taskDate = this.date;
@@ -54,16 +55,19 @@ export class NewTaskComponent {
 
   save() {
     this.tasksService.saveTask(this.date, this.taskTitle, this.taskDescription, this.taskColor);
+    this.messageService.add({ severity: 'success', summary: 'Task created!' });
     this.dismiss.emit();
   }
 
   delete() {
     this.tasksService.deleteTask(this.task.id);
+    this.messageService.add({ severity: 'success', summary: 'Task deleted!' });
     this.dismiss.emit();
   }
 
   update() {
     this.tasksService.updateTask(this.task.id, this.taskTitle, this.taskDescription, this.taskColor);
+    this.messageService.add({ severity: 'success', summary: 'Task updated!' });
     this.dismiss.emit();
   }
 }

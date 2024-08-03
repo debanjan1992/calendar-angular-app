@@ -5,6 +5,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { NewTaskComponent } from '../new-task/new-task.component';
 import { Task } from '../new-task/types';
 import { TasksService } from '../../../services/tasks.service';
+import { MenuItem, MessageService } from 'primeng/api';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 export interface DateItem {
   date: Date;
@@ -14,17 +16,27 @@ export interface DateItem {
 @Component({
   selector: 'app-day',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, NewTaskComponent],
+  imports: [CommonModule, OverlayPanelModule, NewTaskComponent, ContextMenuModule],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss'
 })
 export class DayComponent {
   @Input() date!: DateItem;
   @Input() index!: number;
+  items!: MenuItem[];
 
   activeTask!: Task;
   tasksService = inject(TasksService);
   showDropZone = false;
+
+  constructor(private messageService: MessageService) {}
+
+  ngOnInit() {
+    this.items = [
+      { label: 'Copy', icon: 'pi pi-copy' },
+      { label: 'Rename', icon: 'pi pi-file-edit' }
+  ];
+  }
 
   get isCurrent() {
     const today = new Date();
@@ -70,6 +82,7 @@ export class DayComponent {
     this.tasksService.deleteTask(data.id);
     this.tasksService.saveTask(this.date.date, data.title, data.description, data.color);
     this.showDropZone = false;
+    this.messageService.add({ severity: 'success', summary: 'Task updated!' });
   }
 
   allowDrop(ev: any) {
