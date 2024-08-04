@@ -1,6 +1,6 @@
 # CalendarApp
 
-TYou can visit the demo here - https://debanjan1992.github.io/calendar-angular-app/
+You can visit the demo here - https://debanjan1992.github.io/calendar-angular-app/
 
 ## Development server
 
