@@ -1,6 +1,6 @@
 # CalendarApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
+TYou can visit the demo here - https://debanjan1992.github.io/calendar-angular-app/
 
 ## Development server
 
