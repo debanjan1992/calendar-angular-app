@@ -14,6 +14,7 @@ export class MoreViewComponent {
   @Output() dismiss = new EventEmitter<void>();
   @Input() items!: Task[];
   @Input() date!: Date;
+  @Output() taskClicked = new EventEmitter<{ e: Event, task: Task }>();
 
   drag(ev: DragEvent, task: Task) {
     const index = this.items.findIndex(i => i.id === task.id);

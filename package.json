@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --output-path build --base-href /calendar-angular-app/",
+    "build:dev": "ng build --output-path build --base-href /calendar-angular-app/ --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "deploy": "angular-cli-ghpages --dir=build/browser"

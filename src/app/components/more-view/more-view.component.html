@@ -3,5 +3,6 @@
     <div class="day">{{ date | date : 'dd'}}</div>
 </div>
 <div class="body">
-    <app-task *ngFor="let task of items" [task]="task" draggable="true" (dragstart)="drag($event, task)"></app-task>
+    <app-task *ngFor="let task of items" [task]="task" draggable="true" (dragstart)="drag($event, task)"
+        (taskClicked)="taskClicked.emit({ e: $event, task })"></app-task>
 </div>

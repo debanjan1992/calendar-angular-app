@@ -4,11 +4,13 @@ import { Task } from '../components/calendar/new-task/types';
 import { DatesService } from './dates.service';
 import { faker } from '@faker-js/faker';
 import * as uuid from "uuid";
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
+  mockRange = 60;
 
   private tasksSubject = new Subject<Task[]>();
 
@@ -21,15 +23,17 @@ export class TasksService {
   }
 
   createDummyTasks() {
+    console.log("Generating dummy tasks");
     const date = new Date();
-    const startDate = DatesService.addDuration(date, { days: -90 });
-    const endDate = DatesService.addDuration(date, { days: 90 });
+    const startDate = DatesService.addDuration(date, { days: -this.mockRange });
+    const endDate = DatesService.addDuration(date, { days: this.mockRange });
 
     let current = startDate;
     const tasks: Task[] = [];
 
     while (current <= endDate) {
       const numberOfTasks = Math.floor(Math.random() * 10) - 3;
+      current.setHours(0, 0, 0, 0);
 
       if (numberOfTasks > 0) {
         for (let i = 1; i <= numberOfTasks; i++) {
@@ -38,9 +42,9 @@ export class TasksService {
             title: faker.music.songName(),
             description: faker.commerce.productDescription(),
             color: "#3B82F6",
-            createdDate: current.toLocaleDateString(),
+            createdDate: current.toUTCString(),
             completed: Math.random() > 0.7,
-          })
+          });
         }
       }
 
@@ -63,12 +67,13 @@ export class TasksService {
 
   saveTask(date: Date, title: string, description: string, color: string) {
     let allTasks = this.getTasks();
+    date.setHours(0, 0, 0, 0);
     allTasks = [...allTasks, {
       id: uuid.v4(),
       title,
       description,
       color,
-      createdDate: date.toLocaleDateString(),
+      createdDate: date.toUTCString(),
       completed: false,
     }];
 
@@ -101,7 +106,11 @@ export class TasksService {
 
   getTasksForDate(date: Date) {
     const allTasks = this.getTasks();
-    const matchedDate = date.toLocaleDateString();
-    return allTasks.filter(task => task.createdDate === matchedDate);
+    const matchedDate = date.toUTCString();
+    const results = allTasks.filter(task => {
+      return task.createdDate === matchedDate;
+    });
+
+    return results;
   }
 }

@@ -19,4 +19,8 @@ export class TaskDetailsComponent {
   @Output() toggleCompleted = new EventEmitter<Task>();
   @Output() editClicked = new EventEmitter<Task>();
 
+  get createdDate() {
+    return this.task.createdDate;
+  }
+
 }

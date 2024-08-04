@@ -65,8 +65,9 @@ nav {
                         align-items: center;
 
                         span {
-                            font-size: 1.3rem;
+                            font-size: 1.25rem;
                             color: var(--text-color);
+                            flex-shrink: 0;
                         }
                     }
                 }

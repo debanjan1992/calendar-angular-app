@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, Input, QueryList, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, QueryList, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { format, toDate } from 'date-fns';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
@@ -38,13 +38,26 @@ export class DayComponent {
     private elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.pageSize = Math.floor((this.elementRef.nativeElement.offsetHeight - 84) / 30);
+    this.initializePageSize();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['date'] && !changes['date'].firstChange) {
+      this.initializePageSize();
+    }
+  }
+
+  initializePageSize() {
+    setTimeout(() => {
+      const size = Math.floor((this.elementRef.nativeElement.offsetHeight - 80) / 22);
+      this.pageSize = size <= 0 ? 1 : size;
+    }, 0)
   }
 
   get isCurrent() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return this.date.date.toDateString() === today.toDateString();
+    return this.date.date.toISOString() === today.toISOString();
   }
 
   get day() {
@@ -87,7 +100,7 @@ export class DayComponent {
     const data: Task = JSON.parse(ev.dataTransfer.getData("task"));
 
     this.showDropZone = false;
-    this.tasksService.updateTask(data.id, { ...data, createdDate: this.date.date.toLocaleDateString() });
+    this.tasksService.updateTask(data.id, { ...data, createdDate: this.date.date.toISOString() });
     const isTaskPresent = this.date.items.find(t => t.id === data.id);
     this.date.items.push({ ...data });
     if (!isTaskPresent) {
@@ -166,7 +179,7 @@ export class DayComponent {
       component.instance.toggleCompleted.subscribe(task => this.onTaskToggle(task, event));
 
       this.changeDetectorRef.detectChanges();
-      this.overlayPanelRef.toggle(event);
+      this.overlayPanelRef.show(event);
     });
   }
 
@@ -181,7 +194,7 @@ export class DayComponent {
         this.showUntitled = false;
       });
       this.changeDetectorRef.detectChanges();
-      this.overlayPanelRef.toggle(event);
+      this.overlayPanelRef.show(event);
     });
   }
 
@@ -194,8 +207,11 @@ export class DayComponent {
       component.instance.dismiss.subscribe(() => {
         this.overlayPanelRef.hide();
       });
+      component.instance.taskClicked.subscribe(data => {
+        this.showTaskDetails(data.e, data.task);
+      })
       this.changeDetectorRef.detectChanges();
-      this.overlayPanelRef.toggle(event);
+      this.overlayPanelRef.show(event);
     });
   }
 }
