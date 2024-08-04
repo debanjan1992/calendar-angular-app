@@ -4,7 +4,6 @@ import { Task } from '../components/calendar/new-task/types';
 import { DatesService } from './dates.service';
 import { faker } from '@faker-js/faker';
 import * as uuid from "uuid";
-import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root'
