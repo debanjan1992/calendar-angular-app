@@ -6,6 +6,10 @@
         </div>
         <div class="others">
             <div class="row">
+                <i class="pi pi-clock"></i>
+                <p-calendar [(ngModel)]="date" dateFormat="dd MM, yy" variant="filled" />
+            </div>
+            <div class="row">
                 <i class="pi pi-align-left"></i>
                 <textarea rows="4" columns="30" [variant]="'filled'" pInputTextarea [(ngModel)]="taskDescription"
                     placeholder="Add description"></textarea>
@@ -13,7 +17,6 @@
         </div>
         <div class="actions">
             <p-button *ngIf="!editMode" [disabled]="!taskTitle" (click)="save()">Save</p-button>
-            <p-button *ngIf="editMode" severity="danger" (click)="delete()">Delete</p-button>
             <p-button *ngIf="editMode" [disabled]="!taskTitle" (click)="update()">Update</p-button>
         </div>
     </div>

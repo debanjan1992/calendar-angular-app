@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ButtonModule } from "primeng/button";
 import { CalendarService } from '../../services/calendar.service';
-import { CalendarModule } from 'primeng/calendar';
+import { Calendar, CalendarModule } from 'primeng/calendar';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ButtonModule, CommonModule, CalendarModule, FormsModule, AvatarModule],
+  imports: [ButtonModule, CommonModule, CalendarModule, FormsModule, AvatarModule, OverlayPanelModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  @Output() profileClicked = new EventEmitter<void>();
   today!: Date;
 
   date!: Date;

@@ -4,5 +4,5 @@ export interface Task {
     description: string;
     createdDate: string;
     color: string;
-    completed?: boolean;
+    completed: boolean;
 }

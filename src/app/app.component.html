@@ -1,5 +1,12 @@
-<app-header></app-header>
+<app-header (profileClicked)="sidebarVisible = true"></app-header>
 <main>
     <router-outlet />
 </main>
 <p-toast position="bottom-center" />
+<p-confirmDialog />
+
+<div class="card flex justify-content-center">
+    <p-sidebar [(visible)]="sidebarVisible" (onHide)="sidebarVisible = false" position="right">
+        <app-about-me></app-about-me>
+    </p-sidebar>
+</div>

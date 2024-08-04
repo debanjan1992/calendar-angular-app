@@ -1,5 +1,6 @@
 nav {
     border-bottom: 1px solid var(--surface-300);
+
     .wrapper {
         display: flex;
         align-items: center;
@@ -9,7 +10,7 @@ nav {
         h2 {
             font-weight: 400;
         }
-        
+
         section {
             display: flex;
             align-items: center;
@@ -25,6 +26,16 @@ nav {
                     display: flex;
                     align-items: center;
                     gap: 5px;
+
+                    p-button {
+                        ::ng-deep {
+                            .p-button {
+                                padding: 5px;
+                                height: 2rem;
+                                width: 2rem;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -34,19 +45,30 @@ nav {
                 align-items: center;
                 justify-content: flex-end;
                 gap: 7px;
+                cursor: pointer;
             }
 
             .date {
                 position: relative;
-                cursor: pointer;
+                p-button {
+
+                    .btn-row {
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+
+                        span {
+                            font-size: 1.3rem;
+                            color: var(--text-color);
+                        }
+                    }
+                }
+
                 p-calendar {
-                    position: absolute;
-                    top: 10px;
-                    width: 350px;
                     ::ng-deep {
-                        input {
-                            opacity: 0;
-                            cursor: pointer;
+                        top: 0;
+                        span input {
+                            visibility: hidden;
                         }
                     }
                 }

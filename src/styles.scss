@@ -7,3 +7,20 @@ html, body {
     padding: 0;
     font-size: 14px;
 }
+
+.p-overlaypanel-content {
+    padding: 14px;
+}
+
+.header-calendar-op {
+    &.p-overlaypanel {
+        transform: translateX(90px) !important;
+    }
+    .p-overlaypanel-content {
+        padding: 0;
+
+        .p-datepicker {
+            border: none;
+        }
+    }
+}

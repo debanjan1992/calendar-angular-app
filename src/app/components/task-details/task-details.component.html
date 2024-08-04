@@ -1,0 +1,22 @@
+<div class="icons">
+    <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" size="small" (click)="editClicked.emit(task)" />
+    <p-button icon="pi pi-trash" [rounded]="true" [text]="true" size="small" (click)="deleteClicked.emit(task)" />
+</div>
+<div class="content">
+    <div class="row">
+        <div class="color-box" [style.backgroundColor]="task.color"></div>
+        <div class="title">{{ task.title }}</div>
+    </div>
+    <div class="row">
+        <i class="pi pi-clock"></i>
+        <p class="createdDate">{{task.createdDate | date : 'mediumDate'}}</p>
+    </div>
+    <div class="row" *ngIf="task?.description">
+        <i class="pi pi-align-left"></i>
+        <p class="description">{{task.description}}</p>
+    </div>
+</div>
+<div class="actions">
+    <p-button [text]="true" size="small" *ngIf="!task.completed" (click)="toggleCompleted.emit(task)">Mark completed</p-button>
+    <p-button [text]="true" size="small" *ngIf="task.completed" (click)="toggleCompleted.emit(task)">Mark uncompleted</p-button>
+</div>

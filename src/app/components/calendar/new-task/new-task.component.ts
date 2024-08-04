@@ -59,14 +59,8 @@ export class NewTaskComponent {
     this.dismiss.emit();
   }
 
-  delete() {
-    this.tasksService.deleteTask(this.task.id);
-    this.messageService.add({ severity: 'success', summary: 'Task deleted!' });
-    this.dismiss.emit();
-  }
-
   update() {
-    this.tasksService.updateTask(this.task.id, this.taskTitle, this.taskDescription, this.taskColor);
+    this.tasksService.updateTask(this.task.id, {...this.task, title: this.taskTitle, description: this.taskDescription });
     this.messageService.add({ severity: 'success', summary: 'Task updated!' });
     this.dismiss.emit();
   }

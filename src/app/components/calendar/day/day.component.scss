@@ -3,9 +3,10 @@
     flex-direction: column;
     height: 100%;
     transition: 0.4s;
+    background-color: var(--surface-card);
 
     &:hover {
-        background-color: var(--surface-50);
+        background-color: var(--surface-hover);
     }
 
     &.drop {
@@ -43,7 +44,6 @@
         flex-direction: column;
         margin-top: 3px;
         overflow: auto;
-        background-color: transparent;
 
         ul {
             list-style: none;
@@ -51,26 +51,56 @@
             padding: 0;
 
             li {
-                margin: 3px 8px;
-                border-radius: 10px;
-                background-color: var(--primary-color);
-                color: white;
+                margin: 3px;
+                border-radius: var(--border-radius);
+                color: var(--primary-color-text);
                 font-weight: 700;
                 font-size: 0.75rem;
-                padding: 4px 5px;
+                padding: 4px 6px;
                 cursor: pointer;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
                 transition: 0.2s;
 
+                div.task-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+
+                    div.task-title {
+                        overflow: hidden;
+                        div {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+
+                    i {
+                        font-size: 0.8rem;
+                    }
+                }
+
                 &:hover {
-                    background-color: gray !important;
-                    color: white !important;
+                    opacity: 0.7;
                 }
 
                 &.untitled {
-                    box-shadow: 0px 0px -6px 10px rgba(0, 0, 0, 0.2);
+                    background-color: var(--pink-600);
+                }
+
+                &.completed {
+                    background-color: var(--highlight-bg) !important;
+
+                    &:hover {
+                        background-color: var(--surface-hover) !important;
+                    }
+
+                    div {
+                        color: var(--highlight-text-color);
+
+                        div {
+                            text-decoration: line-through;
+                        }
+                    }
                 }
             }
         }

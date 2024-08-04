@@ -1,24 +1,28 @@
-<div class="wrapper" [ngClass]="showDropZone ? 'drop' : ''" (drop)="drop($event)" (dragover)="allowDrop($event)" (dragleave)="dragLeave($event)">
+<div class="wrapper" [ngClass]="showDropZone ? 'drop' : ''" (drop)="drop($event)" (dragover)="allowDrop($event)"
+    (dragleave)="dragLeave($event)">
     <div class="header">
         <div *ngIf="showDayOfWeek">{{ dayOfWeekLabel | uppercase }}</div>
         <div [ngClass]="isCurrent ? 'current' : ''">{{ dayLabel }}</div>
     </div>
     <div class="content">
         <ul>
+            <li *ngIf="showUntitled" class="untitled">untitled</li>
             <li *ngFor="let task of date.items" draggable="true" (dragstart)="drag($event, task)"
-                [style.backgroundColor]="task.color" (click)="activeTask = task;editTaskOP.toggle($event)">
-                <span>{{task.title}}</span>
+                [ngClass]="{'completed': task.completed }"
+                [style.backgroundColor]="!task.completed ? task.color : 'transparent'"
+                (click)="showTaskDetails($event, task)">
+                <div class="task-wrapper">
+                    <i *ngIf="task.completed" class="pi pi-check-circle"></i>
+                    <div class="task-title">
+                        <div>{{task.title}}</div>
+                    </div>
+                </div>
             </li>
-            <li *ngIf="newTaskOP.overlayVisible" class="untitled">untitled</li>
         </ul>
     </div>
-    <div class="add-new-task" (click)="newTaskOP.toggle($event)"></div>
+    <div class="add-new-task" (click)="showNewTaskOverlay($event)"></div>
 </div>
 
-<p-overlayPanel #newTaskOP [showCloseIcon]="true">
-    <app-new-task [date]="date.date" (dismiss)="newTaskOP.hide()"></app-new-task>
-</p-overlayPanel>
-
-<p-overlayPanel #editTaskOP [showCloseIcon]="true">
-    <app-new-task [date]="date.date" [task]="activeTask" [editMode]="true" (dismiss)="editTaskOP.hide()"></app-new-task>
+<p-overlayPanel #op [showCloseIcon]="true" [style]="{ width: '300px'}" (onHide)="showUntitled = false">
+    <ng-container #vcr></ng-container>
 </p-overlayPanel>

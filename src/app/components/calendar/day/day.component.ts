@@ -1,11 +1,10 @@
-import { Component, inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { format } from 'date-fns';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { NewTaskComponent } from '../new-task/new-task.component';
+import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { Task } from '../new-task/types';
 import { TasksService } from '../../../services/tasks.service';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
 
 export interface DateItem {
@@ -16,27 +15,24 @@ export interface DateItem {
 @Component({
   selector: 'app-day',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, NewTaskComponent, ContextMenuModule],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss'
 })
 export class DayComponent {
   @Input() date!: DateItem;
   @Input() index!: number;
-  items!: MenuItem[];
 
   activeTask!: Task;
   tasksService = inject(TasksService);
   showDropZone = false;
+  showUntitled = false;
+  @ViewChild('vcr', { static: true, read: ViewContainerRef }) vcRef!: ViewContainerRef;
+  @ViewChild('op', { static: true, read: OverlayPanel }) overlayPanelRef!: OverlayPanel;
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, private changeDetectorRef: ChangeDetectorRef, private confirmationService: ConfirmationService) { }
 
-  ngOnInit() {
-    this.items = [
-      { label: 'Copy', icon: 'pi pi-copy' },
-      { label: 'Rename', icon: 'pi pi-file-edit' }
-  ];
-  }
+  ngOnInit() { }
 
   get isCurrent() {
     const today = new Date();
@@ -103,4 +99,76 @@ export class DayComponent {
     }
   }
 
+  onDeleteClicked(task: Task, event: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Do you want to delete this task?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: "p-button-danger p-button-text",
+      rejectButtonStyleClass: "p-button-text p-button-text",
+      acceptIcon: "none",
+      rejectIcon: "none",
+
+      accept: () => {
+        this.tasksService.deleteTask(task.id);
+        this.messageService.add({ severity: 'success', summary: 'Task deleted!' });
+        this.overlayPanelRef.hide();
+      },
+      reject: () => {
+        this.overlayPanelRef.hide();
+      }
+    });
+  }
+
+  onEditClicked(task: Task, event: any) {
+    this.vcRef.clear();
+
+    import("../../calendar/new-task/new-task.component").then(c => {
+      const component = this.vcRef.createComponent(c.NewTaskComponent);
+      component.instance.date = this.date.date;
+      component.instance.task = task;
+      component.instance.editMode = true;
+      component.instance.dismiss.subscribe(() => {
+        this.overlayPanelRef.hide();
+      });
+      this.changeDetectorRef.detectChanges();
+      this.overlayPanelRef.show(event);
+    });
+  }
+
+  onTaskToggle(task: Task, event: any) {
+    this.overlayPanelRef.hide();
+    task.completed = !task.completed;
+    this.tasksService.updateTask(task.id, task);
+  }
+
+  showTaskDetails(event: any, task: any) {
+    this.vcRef.clear();
+    import("../../task-details/task-details.component").then(c => {
+      const component = this.vcRef.createComponent(c.TaskDetailsComponent);
+      component.instance.task = task;
+      component.instance.deleteClicked.subscribe(task => this.onDeleteClicked(task, event));
+      component.instance.editClicked.subscribe(task => this.onEditClicked(task, event));
+      component.instance.toggleCompleted.subscribe(task => this.onTaskToggle(task, event));
+
+      this.changeDetectorRef.detectChanges();
+      this.overlayPanelRef.toggle(event);
+    });
+  }
+
+  showNewTaskOverlay(event: any) {
+    this.vcRef.clear();
+    this.showUntitled = true;
+    import("../../calendar/new-task/new-task.component").then(c => {
+      const component = this.vcRef.createComponent(c.NewTaskComponent);
+      component.instance.date = this.date.date;
+      component.instance.dismiss.subscribe(() => {
+        this.overlayPanelRef.hide();
+        this.showUntitled = false;
+      });
+      this.changeDetectorRef.detectChanges();
+      this.overlayPanelRef.toggle(event);
+    });
+  }
 }

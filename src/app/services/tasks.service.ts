@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Task } from '../components/calendar/new-task/types';
-import { format } from 'date-fns';
-import { BehaviorSubject, Subject, tap } from 'rxjs';
-import { CalendarService } from './calendar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,23 +32,22 @@ export class TasksService {
       title,
       description,
       color,
-      createdDate: format(date, "dd/MM/yyyy"),
+      createdDate: date.toLocaleDateString(),
+      completed: false,
     }];
 
     localStorage.setItem("tasks", JSON.stringify(allTasks));
     this.tasksSubject.next(allTasks);
   }
 
-  updateTask(taskId: number, title: string, description: string, color: string) {
+  updateTask(taskId: number, task: Task) {
     let allTasks = this.getTasks();
     const index = allTasks.findIndex(t => t.id === taskId);
     if (index !== -1) {
       allTasks[index] = {
-        ...allTasks[index],
-        title,
-        description,
-        color,
-      }
+        ...task, 
+        id: task.id,
+      };
     }
     localStorage.setItem("tasks", JSON.stringify(allTasks));
     this.tasksSubject.next(allTasks);
@@ -68,7 +65,7 @@ export class TasksService {
 
   getTasksForDate(date: Date) {
     const allTasks = this.getTasks();
-    const matchedDate = format(date, "dd/MM/yyyy");
+    const matchedDate = date.toLocaleDateString();
     return allTasks.filter(task => task.createdDate === matchedDate);
   }
 }
