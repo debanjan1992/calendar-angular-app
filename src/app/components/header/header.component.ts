@@ -6,6 +6,7 @@ import { Calendar, CalendarModule } from 'primeng/calendar';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ export class HeaderComponent {
 
   date!: Date;
 
-  constructor(private calendarService: CalendarService) {
+  constructor(private calendarService: CalendarService, private appService: AppService) {
     this.today = new Date();
     this.date = this.today;
   }
@@ -49,5 +50,9 @@ export class HeaderComponent {
 
   goToToday() {
     this.calendarService.goToToday();
+  }
+
+  toggleSidepanel() {
+    this.appService.toggle();
   }
 }

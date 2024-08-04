@@ -1,7 +1,7 @@
 <div class="new-task">
     <div class="wrapper">
         <div class="input-wrapper">
-            <p-colorPicker [(ngModel)]="taskColor" />
+            <p-colorPicker [(ngModel)]="taskColor" [disabled]="true" />
             <input type="text" pInputText [(ngModel)]="taskTitle" placeholder="Add task title" />
         </div>
         <div class="others">

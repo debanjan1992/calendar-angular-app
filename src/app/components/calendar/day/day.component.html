@@ -5,20 +5,13 @@
         <div [ngClass]="isCurrent ? 'current' : ''">{{ dayLabel }}</div>
     </div>
     <div class="content">
-        <ul>
-            <li *ngIf="showUntitled" class="untitled">untitled</li>
-            <li *ngFor="let task of date.items" draggable="true" (dragstart)="drag($event, task)"
-                [ngClass]="{'completed': task.completed }"
-                [style.backgroundColor]="!task.completed ? task.color : 'transparent'"
-                (click)="showTaskDetails($event, task)">
-                <div class="task-wrapper">
-                    <i *ngIf="task.completed" class="pi pi-check-circle"></i>
-                    <div class="task-title">
-                        <div>{{task.title}}</div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+        <app-task *ngIf="showUntitled" class="untitled"
+            [task]="{ title: 'untitled', id: -1, description: '', color: 'red', createdDate: '', completed: false }"></app-task>
+        <app-task *ngFor="let task of items" [task]="task" draggable="true" (dragstart)="drag($event, task)"
+            (taskClicked)="showTaskDetails($event, task)">
+        </app-task>
+        <div *ngIf="date.items.length > pageSize" class="more-text" (click)="showMorePopup($event)">{{
+            date.items.length - pageSize }} more</div>
     </div>
     <div class="add-new-task" (click)="showNewTaskOverlay($event)"></div>
 </div>

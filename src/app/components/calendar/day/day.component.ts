@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { format } from 'date-fns';
+import { format, toDate } from 'date-fns';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { Task } from '../new-task/types';
 import { TasksService } from '../../../services/tasks.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { TaskComponent } from '../../task/task.component';
 
 export interface DateItem {
   date: Date;
@@ -15,7 +16,7 @@ export interface DateItem {
 @Component({
   selector: 'app-day',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, ContextMenuModule],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, TaskComponent],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss'
 })
@@ -27,6 +28,7 @@ export class DayComponent {
   tasksService = inject(TasksService);
   showDropZone = false;
   showUntitled = false;
+  pageSize = 3;
   @ViewChild('vcr', { static: true, read: ViewContainerRef }) vcRef!: ViewContainerRef;
   @ViewChild('op', { static: true, read: OverlayPanel }) overlayPanelRef!: OverlayPanel;
 
@@ -71,14 +73,21 @@ export class DayComponent {
     return this.day;
   }
 
+  get items() {
+    return this.date.items.slice(0, this.pageSize);
+  }
+
   drop(ev: any) {
     ev.preventDefault();
     const data: Task = JSON.parse(ev.dataTransfer.getData("task"));
-    this.date.items.push({ ...data, id: 0 });
-    this.tasksService.deleteTask(data.id);
-    this.tasksService.saveTask(this.date.date, data.title, data.description, data.color);
+
     this.showDropZone = false;
-    this.messageService.add({ severity: 'success', summary: 'Task updated!' });
+    this.tasksService.updateTask(data.id, { ...data, createdDate: this.date.date.toLocaleDateString() });
+    const isTaskPresent = this.date.items.find(t => t.id === data.id);
+    this.date.items.push({ ...data });
+    if (!isTaskPresent) {
+      this.messageService.add({ severity: 'success', summary: 'Task updated!' });
+    }
   }
 
   allowDrop(ev: any) {
@@ -95,7 +104,6 @@ export class DayComponent {
     const index = this.date.items.findIndex(i => i.id === task.id);
     if (index !== -1) {
       ev.dataTransfer?.setData("task", JSON.stringify(task));
-      this.date.items.splice(index, 1);
     }
   }
 
@@ -166,6 +174,20 @@ export class DayComponent {
       component.instance.dismiss.subscribe(() => {
         this.overlayPanelRef.hide();
         this.showUntitled = false;
+      });
+      this.changeDetectorRef.detectChanges();
+      this.overlayPanelRef.toggle(event);
+    });
+  }
+
+  showMorePopup(event: Event) {
+    this.vcRef.clear();
+    import("../../more-view/more-view.component").then(c => {
+      const component = this.vcRef.createComponent(c.MoreViewComponent);
+      component.instance.items = this.date.items;
+      component.instance.date = this.date.date;
+      component.instance.dismiss.subscribe(() => {
+        this.overlayPanelRef.hide();
       });
       this.changeDetectorRef.detectChanges();
       this.overlayPanelRef.toggle(event);

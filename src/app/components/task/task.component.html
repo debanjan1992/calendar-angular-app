@@ -1,0 +1,9 @@
+<div [ngClass]="{'completed': task.completed }" [style.backgroundColor]="task.color"
+    (click)="taskClicked.emit($event)">
+    <div class="task-wrapper">
+        <i *ngIf="task.completed" class="pi pi-check-circle"></i>
+        <div class="task-title">
+            <div>{{task.title}}</div>
+        </div>
+    </div>
+</div>

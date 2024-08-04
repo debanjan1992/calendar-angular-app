@@ -1,5 +1,10 @@
-<div class="sidepanel">
+<div class="sidepanel" *ngIf="visible">
     <div class="wrapper">
-        <h2>Sidepanel</h2>
+        <div class="create-wrapper" [style]="{ textAlign: 'center' }">
+            <p-button icon="pi pi-plus"severity="secondary" label="Create" (click)="newTaskVisible = true"></p-button>
+        </div>
     </div>
 </div>
+<p-dialog header="Create new task" [contentStyle]="{ overflow: 'visible' }" [modal]="true" [(visible)]="newTaskVisible" [blockScroll]="true" [closable]="true" [closeOnEscape]="true" [dismissableMask]="true">
+    <app-new-task [date]="date" (dismiss)="newTaskVisible = false"></app-new-task>
+</p-dialog>

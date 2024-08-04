@@ -1,0 +1,53 @@
+div {
+    margin: 3px;
+    border-radius: var(--border-radius);
+    color: var(--primary-color-text);
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.2s;
+
+    div.task-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        div.task-title {
+            overflow: hidden;
+            div {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
+        i {
+            font-size: 0.8rem;
+        }
+    }
+
+    &:hover {
+        opacity: 0.7;
+    }
+
+    &.untitled {
+        background-color: var(--pink-600);
+    }
+
+    &.completed {
+        opacity: 0.7;
+        background-color: var(--highlight-bg) !important;
+
+        &:hover {
+            background-color: var(--surface-hover) !important;
+        }
+
+        div {
+            color: var(--highlight-text-color);
+
+            div {
+                text-decoration: line-through;
+            }
+        }
+    }
+}

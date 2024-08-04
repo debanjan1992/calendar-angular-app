@@ -1,7 +1,7 @@
 <nav>
     <div class="wrapper">
         <section>
-            <!-- <p-button icon="pi pi-bars" [rounded]="true" [outlined]="true" link="true" /> -->
+            <p-button icon="pi pi-bars" [rounded]="true" [outlined]="true" link="true" (click)="toggleSidepanel()" />
             <img src="./calendar_2_2x.png" width="40" height="40" />
             <h2>Calendar</h2>
         </section>
@@ -23,10 +23,12 @@
 
             </div>
         </section>
-        <section (click)="profileClicked.emit()">
-            <p-avatar label="DS" styleClass="mr-2" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                shape="circle" />
-            <span>Debanjan Saha</span>
+        <section>
+            <div class="profile-wrapper" (click)="profileClicked.emit()">
+                <p-avatar label="DS" styleClass="mr-2" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                    shape="circle" />
+                <span>Debanjan Saha</span>
+            </div>
         </section>
     </div>
 </nav>

@@ -1,0 +1,7 @@
+<div class="header">
+    <div class="weekday">{{ date | date : 'EEE' | uppercase }}</div>
+    <div class="day">{{ date | date : 'dd'}}</div>
+</div>
+<div class="body">
+    <app-task *ngFor="let task of items" [task]="task" draggable="true" (dragstart)="drag($event, task)"></app-task>
+</div>

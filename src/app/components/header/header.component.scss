@@ -46,6 +46,13 @@ nav {
                 justify-content: flex-end;
                 gap: 7px;
                 cursor: pointer;
+
+                .profile-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    cursor: pointer;
+                }
             }
 
             .date {
