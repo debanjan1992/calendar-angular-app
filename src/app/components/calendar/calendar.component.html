@@ -1,7 +1,7 @@
 <div class="calendar">
     <div class="wrapper">
         <div class="grid-item" *ngFor="let day of days; let i = index">
-            <app-day [date]="day" [index]="i"></app-day>
+            <app-day [date]="day" [index]="i" [pageSize]="pageSize" #dayEl></app-day>
         </div>
     </div>
 </div>

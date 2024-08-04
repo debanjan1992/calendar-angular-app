@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, QueryList, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { format, toDate } from 'date-fns';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
@@ -23,18 +23,23 @@ export interface DateItem {
 export class DayComponent {
   @Input() date!: DateItem;
   @Input() index!: number;
+  @Input() pageSize!: number;
 
   activeTask!: Task;
   tasksService = inject(TasksService);
   showDropZone = false;
   showUntitled = false;
-  pageSize = 3;
   @ViewChild('vcr', { static: true, read: ViewContainerRef }) vcRef!: ViewContainerRef;
   @ViewChild('op', { static: true, read: OverlayPanel }) overlayPanelRef!: OverlayPanel;
 
-  constructor(private messageService: MessageService, private changeDetectorRef: ChangeDetectorRef, private confirmationService: ConfirmationService) { }
+  constructor(private messageService: MessageService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private confirmationService: ConfirmationService,
+    private elementRef: ElementRef) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.pageSize = Math.floor((this.elementRef.nativeElement.offsetHeight - 84) / 30);
+  }
 
   get isCurrent() {
     const today = new Date();

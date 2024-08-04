@@ -6,7 +6,7 @@
     </div>
     <div class="content">
         <app-task *ngIf="showUntitled" class="untitled"
-            [task]="{ title: 'untitled', id: -1, description: '', color: 'red', createdDate: '', completed: false }"></app-task>
+            [task]="{ title: 'untitled', id: '', description: '', color: 'red', createdDate: '', completed: false }"></app-task>
         <app-task *ngFor="let task of items" [task]="task" draggable="true" (dragstart)="drag($event, task)"
             (taskClicked)="showTaskDetails($event, task)">
         </app-task>

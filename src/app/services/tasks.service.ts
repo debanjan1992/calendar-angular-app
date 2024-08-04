@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Task } from '../components/calendar/new-task/types';
 import { DatesService } from './dates.service';
 import { faker } from '@faker-js/faker';
+import * as uuid from "uuid";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class TasksService {
       if (numberOfTasks > 0) {
         for (let i = 1; i <= numberOfTasks; i++) {
           tasks.push({
-            id: faker.number.int({ min: 100000 }),
+            id: uuid.v4(),
             title: faker.music.songName(),
             description: faker.commerce.productDescription(),
             color: "#3B82F6",
@@ -63,7 +64,7 @@ export class TasksService {
   saveTask(date: Date, title: string, description: string, color: string) {
     let allTasks = this.getTasks();
     allTasks = [...allTasks, {
-      id: Math.floor(Math.random() * 1000),
+      id: uuid.v4(),
       title,
       description,
       color,
@@ -75,7 +76,7 @@ export class TasksService {
     this.tasksSubject.next(allTasks);
   }
 
-  updateTask(taskId: number, task: Task) {
+  updateTask(taskId: string, task: Task) {
     let allTasks = this.getTasks();
     const index = allTasks.findIndex(t => t.id === taskId);
     if (index !== -1) {
@@ -88,7 +89,7 @@ export class TasksService {
     this.tasksSubject.next(allTasks);
   }
 
-  deleteTask(taskId: number) {
+  deleteTask(taskId: string) {
     let allTasks = this.getTasks();
     const index = allTasks.findIndex(t => t.id === taskId);
     if (index !== -1) {

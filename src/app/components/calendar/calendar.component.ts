@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { DatesService } from '../../services/dates.service';
 import { CommonModule } from '@angular/common';
 import { DateItem, DayComponent } from './day/day.component';
@@ -13,10 +13,12 @@ import { TasksService } from '../../services/tasks.service';
   styleUrl: './calendar.component.scss'
 })
 export class CalendarComponent implements OnInit {
+  @ViewChildren("dayEl", { read: ElementRef }) dayEls = new QueryList<ElementRef>();
   currentDate: Date;
   days: DateItem[] = [];
   previousDays: DateItem[] = [];
   nextDays: DateItem[] = [];
+  pageSize = 2;
 
   tasksService: TasksService;
 
@@ -92,5 +94,16 @@ export class CalendarComponent implements OnInit {
       this.nextDays.push({ date: current, items: this.tasksService.getTasksForDate(current) });
       current = DatesService.addDuration(current, { days: 1 });
     }
+  }
+
+  ngAfterViewInit() {
+    this.dayEls.changes.subscribe(_ => {
+      setTimeout(() => {
+        const averageHeight = Math.floor(this.dayEls.reduce((prev, curr) => {
+          return prev + curr.nativeElement.offsetHeight
+        }, 0) / this.dayEls.length);
+        this.pageSize = Math.abs(Math.floor((averageHeight - 50) / 30));
+      }, 0)
+    });
   }
 }
