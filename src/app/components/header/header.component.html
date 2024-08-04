@@ -1,7 +1,7 @@
 <nav>
     <div class="wrapper">
         <section>
-            <p-button icon="pi pi-bars" [rounded]="true" [outlined]="true" link="true" (click)="toggleSidepanel()" />
+            <!-- <p-button icon="pi pi-bars" [rounded]="true" [outlined]="true" link="true" (click)="toggleSidepanel()" /> -->
             <img src="./calendar_2_2x.png" width="40" height="40" />
             <h2>Calendar</h2>
         </section>
@@ -20,10 +20,11 @@
                         <i class="pi pi-angle-down"></i>
                     </div>
                 </p-button>
-
             </div>
+            <p-button [outlined]="true" size="small" (click)="newTaskVisible = true">Create</p-button>
         </section>
         <section>
+            <p-button [outlined]="true" size="small" (click)="generate()">Generate mocks</p-button>
             <div class="profile-wrapper" (click)="profileClicked.emit()">
                 <p-avatar label="DS" styleClass="mr-2" [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
                     shape="circle" />
@@ -36,3 +37,6 @@
     <p-calendar #cal [(ngModel)]="date" view="month" dateFormat="MM yy" [readonlyInput]="true" [inline]="true"
         (ngModelChange)="updateDate($event)" (onSelect)="op.hide()" />
 </p-overlayPanel>
+<p-dialog header="Create new task" [contentStyle]="{ overflow: 'visible', minWidth: '500px' }" [modal]="true" [(visible)]="newTaskVisible" [blockScroll]="true" [closable]="true" [closeOnEscape]="true" [dismissableMask]="true">
+    <app-new-task [date]="date" (dismiss)="newTaskVisible = false"></app-new-task>
+</p-dialog>

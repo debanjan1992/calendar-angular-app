@@ -83,3 +83,13 @@ nav {
         }
     }
 }
+
+.profile-wrapper {
+    margin-left: 16px;
+    padding: 5px;
+    border-radius: var(--border-radius);
+
+    &:hover {
+        background-color: var(--highlight-bg);
+    }
+}
