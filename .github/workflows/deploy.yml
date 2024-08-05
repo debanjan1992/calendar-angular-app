@@ -46,5 +46,5 @@ jobs:
       with:
         # GitHub token
         token: ${{ secrets.GH_PAT }}
-        artifact_name: gh-pages
+        artifact_name: build
           
