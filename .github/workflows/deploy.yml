@@ -29,10 +29,17 @@ jobs:
         npm install
         npm run build
 
-    - name: Deploy to github pages
-      uses: crazy-max/ghaction-github-pages@v4.0.0
+    # - name: Deploy to github pages
+    #   uses: crazy-max/ghaction-github-pages@v4.0.0
+    #   with:
+    #     build_dir: "build/browser"
+    #   env:
+    #     CI: true
+    #     GH_PAT: ${{ secrets.GH_PAT }}
+        
+    - name: Deploy GitHub Pages site
+      uses: actions/deploy-pages@v4.0.5
       with:
-        build_dir: "build/browser"
-      env:
-        CI: true
-        GH_PAT: ${{ secrets.GH_PAT }}
+        # GitHub token
+        token: ${{ secrets.GH_PAT }}
+          
