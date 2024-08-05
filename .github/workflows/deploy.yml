@@ -1,8 +1,9 @@
-name: NodeJS with Webpack
+name: Build and deploy to Github pages
 
 on:
   push:
     branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -34,4 +35,4 @@ jobs:
         build_dir: "build/browser"
       env:
         CI: true
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_PAT: ${{ secrets.GH_PAT }}
