@@ -23,6 +23,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Configure git
+        run: |
+          git config --global user.email "debanjansaha1992@gmail.com"
+          git config --global user.name "Debanjan Saha"
+
       - name: Adding Node.js
         uses: actions/setup-node@v2
         with:
