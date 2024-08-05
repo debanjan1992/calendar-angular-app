@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, inject, Input, QueryList, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, Input, NgZone, SimpleChanges, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { format, toDate } from 'date-fns';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
@@ -29,27 +29,36 @@ export class DayComponent {
   tasksService = inject(TasksService);
   showDropZone = false;
   showUntitled = false;
+  observer!: ResizeObserver;
   @ViewChild('vcr', { static: true, read: ViewContainerRef }) vcRef!: ViewContainerRef;
   @ViewChild('op', { static: true, read: OverlayPanel }) overlayPanelRef!: OverlayPanel;
 
   constructor(private messageService: MessageService,
     private changeDetectorRef: ChangeDetectorRef,
     private confirmationService: ConfirmationService,
-    private elementRef: ElementRef) { }
+    private elementRef: ElementRef.
+    private ngZone: NgZone) { }
 
   ngOnInit() {
-    this.initializePageSize();
+    this.observer = new ResizeObserver(entries => {
+      this.ngZone.run(() => {
+        this.initializePageSize(entries[0].contentRect.height);
+      });
+    });
+
+    this.observer.observe(this.elementRef.nativeElement);
+    this.initializePageSize(this.elementRef.nativeElement.offsetHeight);
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['date'] && !changes['date'].firstChange) {
-      this.initializePageSize();
+      this.initializePageSize(this.elementRef.nativeElement.offsetHeight);
     }
   }
 
-  initializePageSize() {
+  initializePageSize(height: number) {
     setTimeout(() => {
-      const size = Math.floor((this.elementRef.nativeElement.offsetHeight - 80) / 22);
+      const size = Math.floor((height - 80) / 22);
       this.pageSize = size <= 0 ? 1 : size;
     }, 0)
   }
@@ -213,5 +222,11 @@ export class DayComponent {
       this.changeDetectorRef.detectChanges();
       this.overlayPanelRef.show(event);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.observer) {
+      this.observer.unobserve(this.elementRef.nativeElement);
+    }
   }
 }
