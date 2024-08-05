@@ -36,7 +36,7 @@ export class DayComponent {
   constructor(private messageService: MessageService,
     private changeDetectorRef: ChangeDetectorRef,
     private confirmationService: ConfirmationService,
-    private elementRef: ElementRef.
+    private elementRef: ElementRef,
     private ngZone: NgZone) { }
 
   ngOnInit() {
