@@ -1,10 +1,5 @@
-# 📅 Angular Calendar Application
+## 📅 Angular Calendar Application
 
-![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
-![NgRx](https://img.shields.io/badge/NgRx-BA2BD2?style=for-the-badge&logo=ngrx&logoColor=white)
-![PrimeNG](https://img.shields.io/badge/PrimeNG-2196F3?style=for-the-badge&logo=primeng&logoColor=white)
-![Nx](https://img.shields.io/badge/Nx-143055?style=for-the-badge&logo=nx&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
 A robust, feature-rich calendar application built with **Angular** and **NgRx**. This project replicates core functionalities of popular calendar tools (like Google Calendar), demonstrating complex state management, date manipulation, and reactive UI updates within an Nx monorepo architecture.
 
@@ -85,19 +80,4 @@ This project was generated using [Nx](https://nx.dev).
 * **Modular Design:** Features are split into logical modules (Calendar, Tasks, Shared) for better maintainability and lazy loading.
 * **Date Handling:** Robust manipulation of date objects to handle leap years, month overflows, and precise navigation.
 
----
 
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
-
-## 👤 Author
-
-**Debanjan**
-* GitHub: [@debanjan1992](https://github.com/debanjan1992)
