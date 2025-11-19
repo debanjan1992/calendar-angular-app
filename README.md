@@ -1,27 +1,103 @@
-# CalendarApp
+# 📅 Angular Calendar Application
 
-You can visit the demo here - https://debanjan1992.github.io/calendar-angular-app/
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![NgRx](https://img.shields.io/badge/NgRx-BA2BD2?style=for-the-badge&logo=ngrx&logoColor=white)
+![PrimeNG](https://img.shields.io/badge/PrimeNG-2196F3?style=for-the-badge&logo=primeng&logoColor=white)
+![Nx](https://img.shields.io/badge/Nx-143055?style=for-the-badge&logo=nx&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
-## Development server
+A robust, feature-rich calendar application built with **Angular** and **NgRx**. This project replicates core functionalities of popular calendar tools (like Google Calendar), demonstrating complex state management, date manipulation, and reactive UI updates within an Nx monorepo architecture.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 🚀 Live Demo
+**[View the Live Application](https://debanjan1992.github.io/calendar-angular-app/)**
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## ✨ Key Features
 
-## Build
+* **📅 Interactive Calendar View:**
+    * Seamless navigation between Days, Months, and Years.
+    * Dynamic grid generation based on the selected view.
+    * Current day highlighting.
+* **✅ Task Management (CRUD):**
+    * **Create:** Add new tasks to specific dates.
+    * **Read:** View daily tasks in a clean list format.
+    * **Update:** Edit task details.
+    * **Delete:** Remove unwanted tasks.
+* **📝 Status Tracking:** Mark tasks as "Complete" or "Incomplete" with visual feedback.
+* **⚡ Auto-Generate:** Includes a utility to generate sample tasks for testing layouts and performance.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## 🛠️ Tech Stack
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* **Framework:** Angular
+* **State Management:** NgRx (Redux pattern) / SignalStore
+* **UI Component Library:** PrimeNG
+* **Styling:** SCSS / CSS Grid
+* **Build System:** Nx (Monorepo tooling)
+* **Hosting:** GitHub Pages
 
-## Running end-to-end tests
+---
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 📸 Screenshots
 
-## Further help
+| Calendar View | Task Management |
+|:---:|:---:|
+| *[Insert Screenshot of Calendar Grid]* | *[Insert Screenshot of Task Modal]* |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🏃‍♂️ Getting Started
+
+This project was generated using [Nx](https://nx.dev).
+
+### Prerequisites
+* Node.js (v18+)
+* npm or pnpm
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/debanjan1992/calendar-angular-app.git](https://github.com/debanjan1992/calendar-angular-app.git)
+    cd calendar-angular-app
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
+
+3.  **Run the application:**
+    ```bash
+    npx nx serve
+    ```
+    Navigate to `http://localhost:4200/`.
+
+---
+
+## 🏗️ Architecture Highlights
+
+* **Reactive State:** Uses NgRx to handle the complex state of selected dates and task lists, ensuring the UI is always in sync with the data.
+* **Modular Design:** Features are split into logical modules (Calendar, Tasks, Shared) for better maintainability and lazy loading.
+* **Date Handling:** Robust manipulation of date objects to handle leap years, month overflows, and precise navigation.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+## 👤 Author
+
+**Debanjan**
+* GitHub: [@debanjan1992](https://github.com/debanjan1992)
