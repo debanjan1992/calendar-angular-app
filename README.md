@@ -1,4 +1,4 @@
-## 📅 Angular Calendar Application
+# 📅 Angular Calendar Application
 
 
 A robust, feature-rich calendar application built with **Angular** and **NgRx**. This project replicates core functionalities of popular calendar tools (like Google Calendar), demonstrating complex state management, date manipulation, and reactive UI updates within an Nx monorepo architecture.
